@@ -3,10 +3,12 @@
 Specchio di §10 della specifica (`docs/superpowers/specs/2026-11-07-pizzeria-3d-platform-design.md`). Ogni fase ha un cancello: la successiva non inizia finché tutti i punti della precedente non sono dimostrati da un test o da una verifica registrata.
 
 ## Fase 0: fondamenta
-- [ ] Monorepo, tooling e CI locale configurati; `npm test` funziona a vuoto.
-- [ ] `domain`: tipo `Money` in centesimi, nessun `number` frazionario in API pubbliche.
-- [ ] Macchina a stati ordine: test su ogni transizione ammessa e su un campione di vietate.
-- [ ] Documentazione di architettura e glossario presenti in `docs/`.
+- [x] Monorepo, tooling e CI locale configurati; `npm test` funziona a vuoto.
+- [x] `domain`: tipo `Money` in centesimi, nessun `number` frazionario in API pubbliche.
+- [x] Macchina a stati ordine: test su ogni transizione ammessa e su un campione di vietate.
+- [x] Documentazione di architettura e glossario presenti in `docs/`.
+
+Verifica: 2026-11-07, `npm test` 52/52 passing (money 11, order-state 41), `npm run typecheck` exit 0
 
 ## Fase 1: ordini e verifica prezzi
 - [ ] Migrazioni Postgres per le tabelle di §4.1, con i vincoli unique e il blocco UPDATE/DELETE.

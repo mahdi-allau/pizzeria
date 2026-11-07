@@ -64,11 +64,12 @@ export function transition(state: OrderState, to: OrderStatus, at: Date): OrderS
   }
 
   if (from === 'NEEDS_ATTENTION') {
-    if (state.previousStatus === undefined || to !== state.previousStatus) {
+    // Spec 8.1: back to the previous status (manual resolution) or CANCELLED.
+    if (to !== 'CANCELLED' && (state.previousStatus === undefined || to !== state.previousStatus)) {
       throw new InvalidTransitionError(
         from,
         to,
-        `may only return to previous status ${String(state.previousStatus)}`,
+        `may only return to previous status ${String(state.previousStatus)} or be CANCELLED`,
       );
     }
     const { previousStatus: _resolved, ...rest } = state;

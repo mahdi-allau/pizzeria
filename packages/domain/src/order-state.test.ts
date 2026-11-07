@@ -177,9 +177,14 @@ describe('NEEDS_ATTENTION', () => {
     },
   );
 
-  it('may only return to exactly the previous status', () => {
+  it('may be cancelled directly (spec 8.1: any non-final -> CANCELLED)', () => {
+    const attn = transition(reach('SENT_TO_POS'), 'NEEDS_ATTENTION', t4);
+    expect(transition(attn, 'CANCELLED', t4).status).toBe('CANCELLED');
+  });
+
+  it('may only return to the previous status or be cancelled', () => {
     const attn = transition(reach('ACCEPTED'), 'NEEDS_ATTENTION', t4);
-    for (const to of ALL.filter((s) => s !== 'ACCEPTED')) {
+    for (const to of ALL.filter((s) => s !== 'ACCEPTED' && s !== 'CANCELLED')) {
       expect(() => transition(attn, to, t4)).toThrow(InvalidTransitionError);
     }
   });

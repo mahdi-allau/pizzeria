@@ -32,7 +32,6 @@ Monorepo TypeScript (Node 22, Postgres 16, SQLite per il bridge, vitest, zod).
 - `packages/*` non dipende mai da `apps/*`.
 - `domain` non dipende da nulla (nessuna I/O, nessun altro pacchetto).
 - Le dipendenze vanno solo verso il basso: `apps` → `packages` di contratto → `domain`.
-- I pacchetti di contratto non si dipendono tra loro; condividono solo `domain`.
 
 ## Principi trasversali
 

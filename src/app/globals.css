@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. The colour values come from src/config/business.ts and are injected as --brand-* CSS variables
+ * by the root layout, so re-branding never touches this file.
+ */
+@theme inline {
+  --font-display: var(--font-bodoni), "Bodoni 72", Didot, "Bodoni MT", Georgia, serif;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --color-charcoal-950: var(--brand-charcoal-950);
+  --color-charcoal-900: var(--brand-charcoal-900);
+  --color-charcoal-800: var(--brand-charcoal-800);
+  --color-charcoal-700: var(--brand-charcoal-700);
+  --color-charcoal-600: var(--brand-charcoal-600);
+  --color-charcoal-500: var(--brand-charcoal-500);
+
+  --color-cream-50: var(--brand-cream-50);
+  --color-cream-100: var(--brand-cream-100);
+  --color-cream-200: var(--brand-cream-200);
+  --color-cream-300: var(--brand-cream-300);
+  --color-cream-400: var(--brand-cream-400);
+
+  --color-tomato-300: var(--brand-tomato-300);
+  --color-tomato-400: var(--brand-tomato-400);
+  --color-tomato-500: var(--brand-tomato-500);
+  --color-tomato-600: var(--brand-tomato-600);
+  --color-tomato-700: var(--brand-tomato-700);
+
+  --color-basil-300: var(--brand-basil-300);
+  --color-basil-400: var(--brand-basil-400);
+  --color-basil-500: var(--brand-basil-500);
+  --color-basil-600: var(--brand-basil-600);
+  --color-basil-700: var(--brand-basil-700);
+
+  --color-gold-400: var(--brand-gold-400);
+  --color-gold-500: var(--brand-gold-500);
+
+  --radius-sign: 0.5rem; /* enamel-sign corners for buttons and inputs */
+
+  --ease-land: cubic-bezier(0.2, 0.9, 0.25, 1.15); /* a touch of overshoot, like something settling */
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--brand-charcoal-900);
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--brand-charcoal-900);
+    color: var(--brand-cream-100);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--brand-tomato-500);
+    color: var(--brand-cream-50);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand-gold-400);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  button,
+  [role="button"],
+  summary {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  img,
+  svg {
+    max-width: 100%;
+  }
+}
+
+/* ── Surfaces and shapes ───────────────────────────────────────────────── */
+
+/** Cream paper with a fine grain: everything the customer reads or prints (menu, receipt, ticket). */
+@utility paper {
+  background-color: var(--brand-cream-100);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .25  0 0 0 0 .15  0 0 0 .09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  color: var(--brand-charcoal-900);
+}
+
+/** The oven mouth: a half-round top. */
+@utility arch {
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+}
+
+/** Perforated tear-off edge along the bottom, like a kitchen ticket. Needs overflow visible and a solid background. */
+@utility ticket-bottom {
+  --hole: 7px;
+  -webkit-mask:
+    radial-gradient(circle at 50% calc(100% - 0px), transparent 0 3px, #000 3.5px) bottom / 14px 7px repeat-x,
+    linear-gradient(#000, #000) top / 100% calc(100% - 7px) no-repeat;
+  mask:
+    radial-gradient(circle at 50% calc(100% - 0px), transparent 0 3px, #000 3.5px) bottom / 14px 7px repeat-x,
+    linear-gradient(#000, #000) top / 100% calc(100% - 7px) no-repeat;
+}
+
+/** Display type: Bodoni at its large optical size. */
+@utility display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.02;
+}
+
+/** Prices and counts: lining, tabular figures so digits do not jitter while counting. */
+@utility figures {
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+
+/** Visually hidden but available to screen readers. */
+@utility sr-only-focusable {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

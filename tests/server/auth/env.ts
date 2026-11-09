@@ -21,7 +21,7 @@ const MANAGED = [
 type ManagedKey = (typeof MANAGED)[number] | 'NODE_ENV';
 
 /** Registers hooks so each test starts as `vitest` runs: NODE_ENV=test and none of our variables set. */
-export function useCleanEnv(): void {
+export function installCleanEnv(): void {
   beforeEach(() => {
     vi.unstubAllEnvs();
     for (const key of MANAGED) vi.stubEnv(key, undefined);

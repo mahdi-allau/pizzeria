@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { MotionProvider } from '@/components/motion-provider';
+import { Toaster } from '@/components/toast';
+import { CartHydrator } from '@/features/cart/cart-hydrator';
 import { brandCssVariables, business } from '@/config/business';
 import { appUrl } from '@/env';
 import { t } from '@/i18n';
@@ -41,7 +43,11 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         >
           {t.common.skipToContent}
         </a>
-        <MotionProvider>{children}</MotionProvider>
+        <MotionProvider>
+          {children}
+          <CartHydrator />
+          <Toaster />
+        </MotionProvider>
       </body>
     </html>
   );

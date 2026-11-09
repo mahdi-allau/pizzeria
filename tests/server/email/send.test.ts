@@ -10,9 +10,9 @@ import {
   type EmailMessage,
   type ResendLike,
 } from '@/server/email/send';
-import { setEnv, useCleanEnv } from '../auth/env';
+import { setEnv, installCleanEnv } from '../auth/env';
 
-useCleanEnv();
+installCleanEnv();
 
 const message: EmailMessage = {
   to: 'mario.rossi@example.com',
@@ -81,7 +81,8 @@ describe('sendEmail: development mailbox', () => {
   });
 
   it('falls back to a slug of the subject when no kind is given', async () => {
-    const { kind: _kind, ...withoutKind } = message;
+    const withoutKind: EmailMessage = { ...message };
+    delete withoutKind.kind;
     const { id } = await sendEmail(withoutKind, { mailboxDir: mailbox, now: at });
     expect(id).toMatch(/^2026-11-08T17-04-05-123Z-ordine-n-1234-confermato-ritiro/);
   });

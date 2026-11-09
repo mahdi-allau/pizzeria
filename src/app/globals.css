@@ -39,6 +39,55 @@
   --radius-sign: 0.5rem; /* enamel-sign corners for buttons and inputs */
 
   --ease-land: cubic-bezier(0.2, 0.9, 0.25, 1.15); /* a touch of overshoot, like something settling */
+
+  --animate-sheet-in: sheet-in 0.34s cubic-bezier(0.2, 0.9, 0.25, 1.05);
+  --animate-sheet-out: sheet-out 0.2s ease-in forwards;
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-fade-out: fade-out 0.18s ease-in forwards;
+  --animate-pop-in: pop-in 0.3s cubic-bezier(0.2, 0.9, 0.25, 1.15);
+
+  @keyframes sheet-in {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  @keyframes sheet-out {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -48%) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
 }
 
 @layer base {

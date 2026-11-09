@@ -7,7 +7,8 @@
  *   --dpr 2                        device pixel ratio (2 = crisp)
  *   --full                         capture the whole scrollable page
  *   --selector "css"               capture only this element
- *   --click "Text A|Text B"        click buttons/links with these exact texts first (in order)
+ *   --click "Text A|~Part of B|tab:Name"  click first, in order: exact button name, "~" = button name contains
+ *                                  the text, "tab:" = a tab (e.g. an ingredient category)
  *   --wait 2500                    ms to wait after load/clicks (animations)
  *   --mobile                       emulate a phone (390 wide, touch)
  *   --scheme dark|light            prefers-color-scheme
@@ -63,8 +64,15 @@ async function main() {
   await page.waitForTimeout(500);
 
   for (const text of (arg('click') ?? '').split('|').filter(Boolean)) {
-    await page.getByRole('button', { name: text, exact: true }).first().click();
-    await page.waitForTimeout(150);
+    // "~Mozzarella" = accessible name CONTAINS the text; "tab:Salumi" clicks a tab; plain text = exact button name.
+    if (text.startsWith('tab:')) {
+      await page.getByRole('tab', { name: text.slice(4) }).first().click();
+      await page.waitForTimeout(250);
+      continue;
+    }
+    const partial = text.startsWith('~');
+    await page.getByRole('button', { name: partial ? text.slice(1) : text, exact: !partial }).first().click();
+    await page.waitForTimeout(partial ? 350 : 150);
   }
   await page.waitForTimeout(Number(arg('wait') ?? 2500));
 
